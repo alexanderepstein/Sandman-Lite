@@ -1,6 +1,6 @@
 <div align="center">
 
- # ![Insomnia-Lite](https://github.com/alexanderepstein/Insomnia-Lite/blob/master/sleep_github.png) Insomnia-Lite ![Insomnia-Lite]https://github.com/alexanderepstein/Insomnia-Lite/blob/master/sleep_github.png)
+ # ![Insomnia-Lite](https://github.com/alexanderepstein/Insomnia-Lite/blob/master/sleep_github.png) Insomnia-Lite ![Insomnia-Lite](https://github.com/alexanderepstein/Insomnia-Lite/blob/master/sleep_github.png)
 
  ####  a lightweight script built with late night developers in mind
  
