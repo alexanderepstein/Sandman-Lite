@@ -9,13 +9,27 @@ function showRestNotification()
   fi
 }
 
+
+
+function generateSleepTimes()
+{
+  splitTime= echo $wakeUpTime | grep -o .
+  for index in "${!splitTime[@]}"
+do
+    echo "$index ${splitTime[index]}"
+done
+}
+
 declare -a sleepTimes
+wakeUpTime="0830"
 
 
 while getopts ":ts::" opt; do
   case $opt in
     s)
       echo "-s was triggered, Parameter: $OPTARG" >&2
+      wakeUpTime=$OPTARG
+      generateSleepTimes
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
