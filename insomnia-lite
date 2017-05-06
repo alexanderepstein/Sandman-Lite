@@ -1,11 +1,16 @@
 #!/bin/bash
+#insomnia-lite
+#An application that will remind you when to go to bed based on your
+#wake up time and the optimal sleep times algorithm.
+#Version 1.0.0
+
 function showRestNotification()
 {
   if [[ "$OSTYPE" == "linux-gnu" ]]; then
       notify-send "Insomnia" "Time to take a rest"  -u critical -t 5000 -i sleep.ico
 
   elif [[ "$OSTYPE" == "darwin"* ]]; then
-          terminal-notifier -title "Insomnia" -message "It's time to take a rest" -sound "default" -group rest -timeout 10 -appIcon sleep.png -closeLabel Dismiss
+          terminal-notifier -title "Insomnia" -message "It's time to take a rest"  -sound "default"  -group rest -timeout 7 -appIcon sleep.png 
   fi
 }
 
