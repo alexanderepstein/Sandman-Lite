@@ -2,7 +2,7 @@
 function showRestNotification()
 {
   if [[ "$OSTYPE" == "linux-gnu" ]]; then
-      notify-send "Insomnia" "Time to take a rest"  -u critical -t 5000
+      notify-send "Insomnia" "Time to take a rest"  -u critical -t 5000 -i sleep.ico
 
   elif [[ "$OSTYPE" == "darwin"* ]]; then
           terminal-notifier -title "Insomnia" -message "It's time to take a rest" -sound "default" -group rest -timeout 10 -appIcon sleep.png -closeLabel Dismiss
