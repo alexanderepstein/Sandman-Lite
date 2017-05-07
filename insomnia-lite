@@ -3,18 +3,26 @@
 #An application that will remind you when to go to bed based on your
 #wake up time and the optimal sleep times algorithm.
 #Version 1.0.0
+wakeUpTime="08:30"
 
 function showRestNotification()
 {
   if [[ "$OSTYPE" == "linux-gnu" ]]; then
-      notify-send "Insomnia" "Time to take a rest"  -u critical -t 5000 -i sleep.ico
+      notify-send "Insomnia" "Time to take a rest"  -u critical -t 7000 -i sleep.ico
 
   elif [[ "$OSTYPE" == "darwin"* ]]; then
-          terminal-notifier -title "Insomnia" -message "It's time to take a rest"  -sound "default"  -group rest -timeout 7 -appIcon sleep.png
+      terminal-notifier -title "Insomnia" -message "It's time to take a rest"  -sound "default"  -group rest -timeout 7 -appIcon sleep.png
   fi
 }
 
-
+function help()
+{
+  echo "NAME: insomnia-lite"
+  echo "Usage: "
+  echo "    [-t] (tests notification)"
+  echo "    [-s wakeUpTime] wakeuptime 24 hour time with semicolon in between zeros necessary ex. 08:30 (sets new wakeuptime)"
+  echo "    [-h] (brings up the help page)"
+}
 
 function generateSleepTimes()
 {
@@ -23,29 +31,30 @@ function generateSleepTimes()
   wakeUpMinutes=${splitTime[1]}
 
   if [[ "$OSTYPE" == "linux-gnu" ]]; then
-         currentHours= date +"%H"
-         currentMinutes= date +"%M"
+         currentHours=$(date +'%H')
+         currentMinutes=$(date +'%M')
   elif [[ "$OSTYPE" == "darwin"* ]]; then
-          currentHours= gdate +"%H"
-          currentMinutes= gdate +"%M"
+          currentHours=$(gdate +'%H')
+          currentMinutes=$(gdate +'%M')
   fi
-  echo -n currentHours
-  echo $currentHours
-  echo -n wakeUpHours
-  echo $wakeUpHours
+
   if [[ $wakeUpHours > $currentHours ]]; then
-    echo Plusone
-  elif [[ $wakeUpHours == $currentHours && $wakeUpMinutes < $currentMinutes ]]; then
-    echo Plustwo
+        wakeUpTime="$wakeUpHours:$wakeUpMinutes tomorrow"
+  elif [[ "$wakeUpHours" == "$currentHours" && $wakeUpMinutes < $currentMinutes ]]; then
+        wakeUpTime="$wakeUpHours:$wakeUpMinutes tomorrow"
   else
-    echo Plusthree
+        wakeUpTime="$wakeUpHours:$wakeUpMinutes today"
   fi
+
+echo $wakeUpTime
+
+
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-        newtime= date -d "16:00 today + 410 minutes" +'%H:%M'
+        newtime=$(date -d $wakeUpTime-15minutes +'%H:%M')
 
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-        newtime= gdate -d "16:00 today + 410 minutes" +'%H:%M'
+        newtime=$(gdate -d $wakeUpTime-15minutes +'%H:%M')
 fi
 
 echo $newtime
@@ -53,11 +62,16 @@ echo $newtime
 
 
 
-declare -a sleepTimes
-wakeUpTime="08:30"
 
 
-while getopts ":ts::" opt; do
+if [[ $# == 0 ]]; then
+  help
+  exit 0
+fi
+
+
+
+while getopts ":hts::" opt; do
   case $opt in
     s)
       echo "-s was triggered, Parameter: $OPTARG" >&2
@@ -70,6 +84,9 @@ while getopts ":ts::" opt; do
       ;;
     t)
       showRestNotification
+    ;;
+    h)
+      help
     ;;
     :)
       echo "Option -$OPTARG requires an argument." >&2
