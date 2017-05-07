@@ -82,9 +82,14 @@ function generateSleepTimes()
   echo "${sleepTimes[@]}"
 }
 
+function removeNotificatonJobs()
+{
+  for i in `atq | awk '{print $1}'`;do atrm $i;done
+}
 
 function setUpNoitifcationJobs()
 {
+  removeNotificatonJobs
   for i in {0..5}
   do
     at -f ${sleepTimes[$i]} showRestNotification
