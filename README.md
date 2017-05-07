@@ -45,6 +45,7 @@ brew install coreutils
 #### Debian Linux
 
 ```bash
+sudo apt-get install at
 sudo apt-get install notify-osd
 ```
 

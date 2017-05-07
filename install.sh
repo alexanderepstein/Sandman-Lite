@@ -10,3 +10,4 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 sudo cp insomnia-lite /usr/local/bin
 sudo chmod a+x /usr/local/bin/insomnia-lite
+echo "Install Sucessfull"
