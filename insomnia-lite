@@ -10,7 +10,7 @@ function showRestNotification()
       notify-send "Insomnia" "Time to take a rest"  -u critical -t 5000 -i sleep.ico
 
   elif [[ "$OSTYPE" == "darwin"* ]]; then
-          terminal-notifier -title "Insomnia" -message "It's time to take a rest"  -sound "default"  -group rest -timeout 7 -appIcon sleep.png 
+          terminal-notifier -title "Insomnia" -message "It's time to take a rest"  -sound "default"  -group rest -timeout 7 -appIcon sleep.png
   fi
 }
 
@@ -18,15 +18,43 @@ function showRestNotification()
 
 function generateSleepTimes()
 {
-  splitTime= echo $wakeUpTime | grep -o .
-  for index in "${!splitTime[@]}"
-do
-    echo "$index ${splitTime[index]}"
-done
+  IFS=: splitTime=(${wakeUpTime##*-})
+  wakeUpHours=${splitTime[0]}
+  wakeUpMinutes=${splitTime[1]}
+
+  if [[ "$OSTYPE" == "linux-gnu" ]]; then
+         currentHours= date +"%H"
+         currentMinutes= date +"%M"
+  elif [[ "$OSTYPE" == "darwin"* ]]; then
+          currentHours= gdate +"%H"
+          currentMinutes= gdate +"%M"
+  fi
+  echo -n currentHours
+  echo $currentHours
+  echo -n wakeUpHours
+  echo $wakeUpHours
+  if [[ $wakeUpHours > $currentHours ]]; then
+    echo Plusone
+  elif [[ $wakeUpHours == $currentHours && $wakeUpMinutes < $currentMinutes ]]; then
+    echo Plustwo
+  else
+    echo Plusthree
+  fi
+
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+        newtime= date -d "16:00 today + 410 minutes" +'%H:%M'
+
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+        newtime= gdate -d "16:00 today + 410 minutes" +'%H:%M'
+fi
+
+echo $newtime
 }
 
+
+
 declare -a sleepTimes
-wakeUpTime="0830"
+wakeUpTime="08:30"
 
 
 while getopts ":ts::" opt; do
