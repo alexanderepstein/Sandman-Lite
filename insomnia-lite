@@ -5,15 +5,7 @@
 #Version 1.0.0
 wakeUpTime="08:30"
 #declare -a sleepTimes
-function showRestNotification()
-{
-  if [[ "$OSTYPE" == "linux-gnu" ]]; then
-      notify-send "Insomnia" "Time to take a rest"  -u critical -t 7000 -i sleep.ico
 
-  elif [[ "$OSTYPE" == "darwin"* ]]; then
-      terminal-notifier -title "Insomnia" -message "It's time to take a rest"  -sound "default"  -group rest -timeout 7 -appIcon sleep.png
-  fi
-}
 
 function help()
 {
@@ -41,11 +33,11 @@ function generateSleepTimes()
   fi
 
 
-  if [[ $wakeUpHours -lt $currentHours ]]; then
+  if [[ $wakeUpHours < $currentHours ]]; then
         IFS=$oldIFS
         wakeUpTime="$wakeUpTime tomorrow"
 
-  elif [[ $wakeUpHours -eq $currentHours && $wakeUpMinutes -lt $currentMinutes ]]; then
+  elif [[ "$wakeUpHours" == "$currentHours" && $wakeUpMinutes < $currentMinutes ]]; then
         IFS=$oldIFS
         wakeUpTime="$wakeUpTime tomorrow"
 
@@ -80,6 +72,19 @@ function generateSleepTimes()
     fi
   done
   echo "${sleepTimes[@]}"
+
+  for i in {5..0}
+  do
+    if [[ "$OSTYPE" == "linux-gnu" ]]; then
+            sleepTimes[$i]=$(date -d "${sleepTimes[$i]}" +"%Y%m%d%H%M")
+
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+            sleepTimes[$i]=$(gdate -d "${sleepTimes[$i]}" +"%Y%m%d%H%M")
+    fi
+  done
+  echo "${sleepTimes[@]}"
+  echo
+  echo
 }
 
 function removeNotificatonJobs()
@@ -87,12 +92,13 @@ function removeNotificatonJobs()
   for i in `atq | awk '{print $1}'`;do atrm $i;done
 }
 
-function setUpNoitifcationJobs()
+function setUpNotificationJobs()
 {
   removeNotificatonJobs
+  echo
   for i in {0..5}
   do
-    at -f ${sleepTimes[$i]} showRestNotification
+    at -f ./noti.sh -t ${sleepTimes[$i]}
   done
 }
 
@@ -104,7 +110,7 @@ fi
 
 
 
-while getopts ":hts::" opt; do
+while getopts ":rhts::" opt; do
   case $opt in
     s)
       if [[ $# -gt 2 ]]; then
@@ -113,7 +119,7 @@ while getopts ":hts::" opt; do
       fi
       wakeUpTime=$OPTARG
       generateSleepTimes
-      setUpNoitifcationJobs
+      setUpNotificationJobs
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -124,6 +130,9 @@ while getopts ":hts::" opt; do
     ;;
     h)
       help
+    ;;
+    r)
+      removeNotificatonJobs
     ;;
     :)
       echo "Option -$OPTARG requires an argument." >&2
