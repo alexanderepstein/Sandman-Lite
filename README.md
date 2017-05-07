@@ -31,23 +31,7 @@ Inspired by http://sleepyti.me
 (⌐■_■)
 ```
 
-## Dependencies
 
-#### Mac
-
-Have homebrew installed https://brew.sh/
-
-```bash
-brew install terminal-notifier
-brew install coreutils
-```
-
-#### Debian Linux
-
-```bash
-sudo apt-get install at
-sudo apt-get install notify-osd
-```
 
 ## License
 
