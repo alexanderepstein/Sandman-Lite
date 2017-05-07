@@ -4,7 +4,7 @@
 #wake up time and the optimal sleep times algorithm.
 #Version 1.0.0
 wakeUpTime="08:30"
-
+#declare -a sleepTimes
 function showRestNotification()
 {
   if [[ "$OSTYPE" == "linux-gnu" ]]; then
@@ -26,6 +26,8 @@ function help()
 
 function generateSleepTimes()
 {
+
+  oldIFS=$IFS
   IFS=: splitTime=(${wakeUpTime##*-})
   wakeUpHours=${splitTime[0]}
   wakeUpMinutes=${splitTime[1]}
@@ -38,26 +40,49 @@ function generateSleepTimes()
           currentMinutes=$(gdate +'%M')
   fi
 
-  if [[ $wakeUpHours > $currentHours ]]; then
-        wakeUpTime="$wakeUpHours:$wakeUpMinutes tomorrow"
-  elif [[ "$wakeUpHours" == "$currentHours" && $wakeUpMinutes < $currentMinutes ]]; then
-        wakeUpTime="$wakeUpHours:$wakeUpMinutes tomorrow"
+
+  if [[ $wakeUpHours -lt $currentHours ]]; then
+        IFS=$oldIFS
+        wakeUpTime="$wakeUpTime tomorrow"
+
+  elif [[ $wakeUpHours -eq $currentHours && $wakeUpMinutes -lt $currentMinutes ]]; then
+        IFS=$oldIFS
+        wakeUpTime="$wakeUpTime tomorrow"
+
   else
-        wakeUpTime="$wakeUpHours:$wakeUpMinutes today"
+        IFS=$oldIFS
+
+        wakeUpTime="$wakeUpTime today"
+
   fi
 
-echo $wakeUpTime
+  if [[ "$OSTYPE" == "linux-gnu" ]]; then
+          tempTime=$(date -d "$wakeUpTime - 15 minutes" +"%D %H:%M")
+
+  elif [[ "$OSTYPE" == "darwin"* ]]; then
+          tempTime=$(gdate -d "$wakeUpTime - 15 minutes" +"%D %H:%M")
+  fi
+
+  if [[ "$OSTYPE" == "linux-gnu" ]]; then
+          sleepTimes[6]=$(date -d "$tempTime" +"%D %H:%M")
+
+  elif [[ "$OSTYPE" == "darwin"* ]]; then
+          sleepTimes[6]=$(gdate -d "$tempTime" +"%D %H:%M")
+  fi
+
+  for i in {5..0}
+  do
+    if [[ "$OSTYPE" == "linux-gnu" ]]; then
+            sleepTimes[$i]=$(date -d "${sleepTimes[$i+1]} - 1 hour" +"%D %H:%M")
+
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+            sleepTimes[$i]=$(gdate -d "${sleepTimes[$i+1]} - 1 hour" +"%D %H:%M")
+    fi
+  done
 
 
 
-if [[ "$OSTYPE" == "linux-gnu" ]]; then
-        newtime=$(date -d $wakeUpTime-15minutes +'%H:%M')
 
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-        newtime=$(gdate -d $wakeUpTime-15minutes +'%H:%M')
-fi
-
-echo $newtime
 }
 
 
@@ -75,6 +100,10 @@ while getopts ":hts::" opt; do
   case $opt in
     s)
       echo "-s was triggered, Parameter: $OPTARG" >&2
+      if [[ $# -gt 2 ]]; then
+        echo "Error: Too many options supplied"
+        exit 1
+      fi
       wakeUpTime=$OPTARG
       generateSleepTimes
       ;;
