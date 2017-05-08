@@ -19,6 +19,7 @@ function help()
   echo "Usage: "
   echo "    [-t] (tests notification)"
   echo "    [-s wakeUpTime] wakeuptime 24 hour time zeros necessary ex. 08:05 (sets new wakeuptime)"
+  echo "    [-g] (gets pending notifications)"
   echo "    [-h] (brings up the help page)"
 }
 
@@ -70,9 +71,8 @@ function generateSleepTimes()
 
   for i in {5..0}
   do
-      standardTimes[$i]=$(date -d "${sleepTimes[$i]}" +"%s")
+      secondTimes[$i]=$(date -d "${sleepTimes[$i]}" +"%s")
       sleepTimes[$i]=$(date -d "${sleepTimes[$i]}" +"%Y%m%d%H%M")
-
   done
 }
 
@@ -87,7 +87,7 @@ function setUpNotificationJobs()
   removeNotificatonJobs
   for i in {0..5}
   do
-    if [[ $(date -d now +"%s") -le ${standardTimes[$i]} ]]; then
+    if [[ $(date -d now +"%s") -le ${secondTimes[$i]} ]]; then
       at -M -f /usr/local/sbin/noti.sh -t ${sleepTimes[$i]} 2> /dev/null
     fi
   done
@@ -100,9 +100,12 @@ if [[ $# == 0 ]]; then
   exit 0
 fi
 
+function getSleepTimes()
+{
+  atq
+}
 
-
-while getopts ":rhts::" opt; do
+while getopts ":rghts::" opt; do
   case $opt in
     s)
       if [[ $# -gt 2 ]]; then
@@ -122,6 +125,9 @@ while getopts ":rhts::" opt; do
     ;;
     h)
       help
+    ;;
+    g)
+      getSleepTimes
     ;;
     r)
       removeNotificatonJobs
