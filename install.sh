@@ -1,6 +1,6 @@
 #!/bin/bash
 # Just copies the files over from the project directory into usr/local/bin
-# This automatically adds insomnia-lite to the path on both OSX and Linux
+# This automatically adds sandman-lite to the path on both OSX and Linux
 # Version 1.0.0
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
@@ -61,13 +61,13 @@ fi
   sudo cp assets/sleep.png /usr/local/sbin
   sudo cp assets/info.png /usr/local/sbin
 fi
-sudo cp insomnia-lite /usr/local/bin
-sudo chmod a+x /usr/local/bin/insomnia-lite
+sudo cp sandman-lite /usr/local/bin
+sudo chmod a+x /usr/local/bin/sandman-lite
 sudo cp assets/noti.sh /usr/local/sbin
 sudo chmod a+x /usr/local/sbin/noti.sh
 sudo chmod a+x uninstall.sh
 echo
-echo "insomnia-lite installed sucessfully"
+echo "sandman-lite installed sucessfully"
 echo
 echo "( •_•)"
 echo "( •_•)>⌐■-■"

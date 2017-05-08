@@ -1,5 +1,5 @@
 #!/bin/bash
-#insomnia-lite
+#sandman-lite
 #An application that will remind you when to go to bed based on your
 #wake up time and the optimal sleep times algorithm.
 #Version 1.0.0
@@ -15,7 +15,7 @@ date () {
 
 function help()
 {
-  echo "NAME: insomnia-lite"
+  echo "NAME: sandman-lite"
   echo "Usage: "
   echo "    [-t] (tests notification)"
   echo "    [-s wakeUpTime] wakeuptime 24 hour time zeros necessary ex. 08:05 (sets new wakeuptime)"
