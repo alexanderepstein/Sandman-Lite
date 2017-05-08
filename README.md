@@ -24,6 +24,23 @@ Inspired by http://sleepyti.me
 
 </div>
 
+## Installing
+
+```bash
+cd ~
+git clone https://github.com/alexanderepstein/Sandman-Lite
+cd Sandman-Lite
+chmod a+x install.sh
+./install.sh
+```
+
+## Removing
+```bash
+cd ~/Sandman-Lite
+./uninstall.sh
+```
+
+
 
 ```bash
 ( •_•)
