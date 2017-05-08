@@ -23,6 +23,9 @@ This script works well with https://justgetflux.com/
 Inspired by http://sleepyti.me
 
 </div>
+## In Action
+
+![Sandman-Lite-Usage](https://github.com/alexanderepstein/Sandman-Lite/blob/master/assets/usage.gif)
 
 ## Installing
 
