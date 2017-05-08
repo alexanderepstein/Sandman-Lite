@@ -1,8 +1,12 @@
 #!/bin/bash
-
+#export DISPLAY=/private/tmp/com.apple.launchd.5jte4rZAmH/org.macosforge.xquartz:0
+#export SHLVL=1
+#export SECURITYSESSIONID=186a5
+env > ~/git/env.log
+echo 'Start of log session' 2> ~/git/noti.log
   if [[ "$OSTYPE" == "linux-gnu" ]]; then
-      notify-send "Insomnia" "Time to take a rest"  -u critical -t 7000 -i sleep.ico
+      notify-send "Insomnia" "Time to take a rest"  -u critical -t 7000 -i sleep.ico 2> ~/git/linux.log
 
   elif [[ "$OSTYPE" == "darwin"* ]]; then
-      terminal-notifier -title "Insomnia" -message "Time to take a rest"  -sound "default"  -group rest -timeout 7 -appIcon sleep.png
+      terminal-notifier -title "Insomnia" -message "Time to take a rest"  -sound "default"  -group rest -timeout 7 -appIcon sleep.png 2> ~/git/darwin.log
   fi

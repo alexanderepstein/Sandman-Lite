@@ -5,6 +5,7 @@
 #Version 1.0.0
 
 
+# export DISPLAY=/private/tmp/com.apple.launchd.5jte4rZAmH/org.macosforge.xquartz:0
 
 date () {
     case "$OSTYPE" in
@@ -91,7 +92,7 @@ function setUpNotificationJobs()
   echo
   for i in {0..5}
   do
-    at -f noti.sh -t ${sleepTimes[$i]}
+    at -f ~/git/Insomnia-Lite/noti.sh -t ${sleepTimes[$i]} 
   done
   echo
   echo "New Notications set"
