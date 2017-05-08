@@ -28,17 +28,6 @@ Inspired by http://sleepyti.me
 
 ![Sandman-Lite-Usage](https://github.com/alexanderepstein/Sandman-Lite/blob/master/assets/usage.gif)
 
-## Usage
-
-First set a desired wake up time using ```bash sandman-lite -s xx:xx```
-
-To get the times of the set notifications ```bash sandman-lite -g```
-
-To test the rest notification behavior ```bash sandman-lite -t```
-
-To remove all pending notifications ```bash sandman-lite -r```
-
-To get sandman-lite version ```bash sandman-lite -v```
 
 ## Installing
 
@@ -49,6 +38,16 @@ cd Sandman-Lite
 chmod a+x install.sh
 ./install.sh
 ```
+## Usage
+First set a desired wake up time using ```sandman-lite -s xx:xx```
+
+To get the times of the set notifications ```sandman-lite -g```
+
+To test the rest notification behavior ```sandman-lite -t```
+
+To remove all pending notifications ```sandman-lite -r```
+
+To get sandman-lite version ```sandman-lite -v```
 
 ## Removing
 ```bash
