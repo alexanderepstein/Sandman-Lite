@@ -4,9 +4,6 @@
 #wake up time and the optimal sleep times algorithm.
 #Version 1.0.0
 
-
-# export DISPLAY=/private/tmp/com.apple.launchd.5jte4rZAmH/org.macosforge.xquartz:0
-
 date () {
     case "$OSTYPE" in
       darwin*) command gdate "$@" ;;
@@ -73,11 +70,10 @@ function generateSleepTimes()
 
   for i in {5..0}
   do
+      standardTimes[$i]=$(date -d "${sleepTimes[$i]}" +"%s")
       sleepTimes[$i]=$(date -d "${sleepTimes[$i]}" +"%Y%m%d%H%M")
+
   done
-  echo "${sleepTimes[@]}"
-  echo
-  echo
 }
 
 function removeNotificatonJobs()
@@ -89,12 +85,12 @@ function removeNotificatonJobs()
 function setUpNotificationJobs()
 {
   removeNotificatonJobs
-  echo
   for i in {0..5}
   do
-      at -f /usr/local/sbin/noti.sh -t ${sleepTimes[$i]}
+    if [[ $(date -d now +"%s") -le ${standardTimes[$i]} ]]; then
+      at -M -f /usr/local/sbin/noti.sh -t ${sleepTimes[$i]} 2> /dev/null
+    fi
   done
-  echo
   echo "New Notications set"
 }
 
