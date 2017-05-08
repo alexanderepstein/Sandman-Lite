@@ -105,7 +105,7 @@ function getSleepTimes()
   atq
 }
 
-while getopts ":rghts::" opt; do
+while getopts ":vrghts::" opt; do
   case $opt in
     s)
       if [[ $# -gt 2 ]]; then
@@ -131,6 +131,9 @@ while getopts ":rghts::" opt; do
     ;;
     r)
       removeNotificatonJobs
+    ;;
+    v)
+      echo "Version 1.0.0"
     ;;
     :)
       echo "Option -$OPTARG requires an argument." >&2
