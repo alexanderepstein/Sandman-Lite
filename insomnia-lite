@@ -3,9 +3,17 @@
 #An application that will remind you when to go to bed based on your
 #wake up time and the optimal sleep times algorithm.
 #Version 1.0.0
-wakeUpTime="08:30"
-#declare -a sleepTimes
 
+
+
+date () {
+    case "$OSTYPE" in
+      darwin*) command gdate "$@" ;;
+      linux*)  command date  "$@" ;;
+      *) printf 'Unsupported OS type: %s\n' "$OSTYPE" >&2
+         exit 1 ;;
+     esac
+}
 
 function help()
 {
@@ -32,14 +40,9 @@ function generateSleepTimes()
   IFS=: splitTime=(${wakeUpTime##*-})
   wakeUpHours=${splitTime[0]}
   wakeUpMinutes=${splitTime[1]}
+  currentHours=$(date +'%H')
+  currentMinutes=$(date +'%M')
 
-  if [[ "$OSTYPE" == "linux-gnu" ]]; then
-         currentHours=$(date +'%H')
-         currentMinutes=$(date +'%M')
-  elif [[ "$OSTYPE" == "darwin"* ]]; then
-          currentHours=$(gdate +'%H')
-          currentMinutes=$(gdate +'%M')
-  fi
 
 
   if [[ $wakeUpHours < $currentHours ]]; then
@@ -56,41 +59,20 @@ function generateSleepTimes()
         wakeUpTime="$wakeUpTime today"
 
   fi
+      tempTime=$(date -d "$wakeUpTime - 15 minutes" +"%D %H:%M")
+      sleepTimes[6]=$(date -d "$tempTime" +"%D %H:%M")
 
-  if [[ "$OSTYPE" == "linux-gnu" ]]; then
-          tempTime=$(date -d "$wakeUpTime - 15 minutes" +"%D %H:%M")
 
-  elif [[ "$OSTYPE" == "darwin"* ]]; then
-          tempTime=$(gdate -d "$wakeUpTime - 15 minutes" +"%D %H:%M")
-  fi
-
-  if [[ "$OSTYPE" == "linux-gnu" ]]; then
-          sleepTimes[6]=$(date -d "$tempTime" +"%D %H:%M")
-
-  elif [[ "$OSTYPE" == "darwin"* ]]; then
-          sleepTimes[6]=$(gdate -d "$tempTime" +"%D %H:%M")
-  fi
 
   for i in {5..0}
   do
-    if [[ "$OSTYPE" == "linux-gnu" ]]; then
-            sleepTimes[$i]=$(date -d "${sleepTimes[$i+1]} - 1 hour 30 minutes" +"%D %H:%M")
-
-    elif [[ "$OSTYPE" == "darwin"* ]]; then
-            sleepTimes[$i]=$(gdate -d "${sleepTimes[$i+1]} - 1 hour 30 minutes" +"%D %H:%M")
-
-    fi
+      sleepTimes[$i]=$(date -d "${sleepTimes[$i+1]} - 1 hour 30 minutes" +"%D %H:%M")
   done
 
 
   for i in {5..0}
   do
-    if [[ "$OSTYPE" == "linux-gnu" ]]; then
-            sleepTimes[$i]=$(date -d "${sleepTimes[$i]}" +"%Y%m%d%H%M")
-
-    elif [[ "$OSTYPE" == "darwin"* ]]; then
-            sleepTimes[$i]=$(gdate -d "${sleepTimes[$i]}" +"%Y%m%d%H%M")
-    fi
+      sleepTimes[$i]=$(date -d "${sleepTimes[$i]}" +"%Y%m%d%H%M")
   done
   echo "${sleepTimes[@]}"
   echo
@@ -109,7 +91,7 @@ function setUpNotificationJobs()
   echo
   for i in {0..5}
   do
-    at -f noti.sh -t ${sleepTimes[$i]} 
+    at -f noti.sh -t ${sleepTimes[$i]}
   done
   echo
   echo "New Notications set"
