@@ -21,6 +21,7 @@ function help()
   echo "    [-s wakeUpTime] wakeuptime 24 hour time zeros necessary ex. 08:05 (sets new wakeuptime)"
   echo "    [-g] (gets pending notifications)"
   echo "    [-h] (brings up the help page)"
+  echo "    [-v] (prints out version of sandman-lite)"
 }
 
 function showRestNotification()
@@ -79,7 +80,7 @@ function generateSleepTimes()
 function removeNotificatonJobs()
 {
   for i in `atq | awk '{print $1}'`;do atrm $i;done
-  echo "Old Noitifications removed"
+  echo "Old Notifications removed"
 }
 
 function setUpNotificationJobs()
@@ -91,7 +92,7 @@ function setUpNotificationJobs()
       at -f /usr/local/sbin/noti.sh -t ${sleepTimes[$i]} 2> /dev/null
     fi
   done
-  echo "New Notications set"
+  echo "New Notifications set"
 }
 
 
