@@ -5,7 +5,7 @@
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
     sudo apt-get install at notify-osd
-    sudo cp sleep.ico /usr/local/bin
+    sudo cp assets/sleep.ico /usr/local/sbin
 elif [[ "$OSTYPE" == "darwin"* ]]; then
 
 
@@ -58,10 +58,13 @@ else
   echo
   echo
 fi
-  sudo cp sleep.png /usr/local/bin
+  sudo cp assets/sleep.png /usr/local/sbin
+  sudo cp assets/info.png /usr/local/sbin
 fi
 sudo cp insomnia-lite /usr/local/bin
 sudo chmod a+x /usr/local/bin/insomnia-lite
+sudo cp assets/noti.sh /usr/local/sbin
+sudo chmod a+x /usr/local/sbin/noti.sh
 echo
 echo "insomnia-lite installed sucessfully"
 echo
