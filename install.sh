@@ -28,6 +28,22 @@ else
   echo
 fi
 
+if [[ $(brew ls --versions reattach-to-user-namespace )> /dev/null ]]; then
+echo
+echo "reattach-to-user-namespace already installed :)"
+echo
+echo
+echo
+else
+  echo
+  echo "Installing reattach-to-user-namespace"
+  echo
+  brew install reattach-to-user-namespace
+  echo
+  echo
+fi
+
+
 if [[ $(brew ls --versions coreutils )> /dev/null ]]; then
 echo
 echo "coreutils already installed :)"

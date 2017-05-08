@@ -92,7 +92,7 @@ function setUpNotificationJobs()
   echo
   for i in {0..5}
   do
-    at -f ~/git/Insomnia-Lite/noti.sh -t ${sleepTimes[$i]} 
+      at -f ~/git/Insomnia-Lite/noti.sh -t ${sleepTimes[$i]}
   done
   echo
   echo "New Notications set"
