@@ -12,10 +12,19 @@ function help()
   echo "NAME: insomnia-lite"
   echo "Usage: "
   echo "    [-t] (tests notification)"
-  echo "    [-s wakeUpTime] wakeuptime 24 hour time with semicolon in between zeros necessary ex. 08:30 (sets new wakeuptime)"
+  echo "    [-s wakeUpTime] wakeuptime 24 hour time zeros necessary ex. 08:05 (sets new wakeuptime)"
   echo "    [-h] (brings up the help page)"
 }
 
+function showRestNotification()
+{
+  if [[ "$OSTYPE" == "linux-gnu" ]]; then
+      notify-send "Insomnia" "Time to take a rest"  -u critical -t 7000 -i sleep.ico
+
+  elif [[ "$OSTYPE" == "darwin"* ]]; then
+      terminal-notifier -title "Insomnia" -message "Time to take a rest"  -sound "default"  -group rest -timeout 7 -appIcon sleep.png
+  fi
+}
 function generateSleepTimes()
 {
 
@@ -65,13 +74,14 @@ function generateSleepTimes()
   for i in {5..0}
   do
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
-            sleepTimes[$i]=$(date -d "${sleepTimes[$i+1]} - 1 hour" +"%D %H:%M")
+            sleepTimes[$i]=$(date -d "${sleepTimes[$i+1]} - 1 hour 30 minutes" +"%D %H:%M")
 
     elif [[ "$OSTYPE" == "darwin"* ]]; then
-            sleepTimes[$i]=$(gdate -d "${sleepTimes[$i+1]} - 1 hour" +"%D %H:%M")
+            sleepTimes[$i]=$(gdate -d "${sleepTimes[$i+1]} - 1 hour 30 minutes" +"%D %H:%M")
+
     fi
   done
-  echo "${sleepTimes[@]}"
+
 
   for i in {5..0}
   do
@@ -90,6 +100,7 @@ function generateSleepTimes()
 function removeNotificatonJobs()
 {
   for i in `atq | awk '{print $1}'`;do atrm $i;done
+  echo "Old Noitifications removed"
 }
 
 function setUpNotificationJobs()
@@ -98,8 +109,10 @@ function setUpNotificationJobs()
   echo
   for i in {0..5}
   do
-    at -f ./noti.sh -t ${sleepTimes[$i]}
+    at -f noti.sh -t ${sleepTimes[$i]} 
   done
+  echo
+  echo "New Notications set"
 }
 
 
