@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #export DISPLAY=/private/tmp/com.apple.launchd.5jte4rZAmH/org.macosforge.xquartz:0
 #export SHLVL=1
 #export SECURITYSESSIONID=186a5
