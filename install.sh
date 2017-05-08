@@ -2,10 +2,11 @@
 # Just copies the files over from the project directory into usr/local/bin
 # This automatically adds sandman-lite to the path on both OSX and Linux
 # Version 1.0.0
+echo "sandman-lite requires your password to continue installation"
+sudo cp assets/sleep.png /usr/local/sbin
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
     sudo apt-get install at notify-osd -y
-    sudo cp assets/sleep.ico /usr/local/sbin
 elif [[ "$OSTYPE" == "darwin"* ]]; then
 
 
@@ -58,8 +59,6 @@ else
   echo
   echo
 fi
-  sudo cp assets/sleep.png /usr/local/sbin
-  sudo cp assets/info.png /usr/local/sbin
 fi
 sudo cp sandman-lite /usr/local/bin
 sudo chmod a+x /usr/local/bin/sandman-lite

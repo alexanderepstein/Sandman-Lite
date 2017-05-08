@@ -26,10 +26,10 @@ function help()
 function showRestNotification()
 {
   if [[ "$OSTYPE" == "linux-gnu" ]]; then
-      notify-send "Insomnia" "Time to take a rest"  -u critical -t 7000 -i /usr/local/sbin/sleep.ico
+      notify-send "Sandman" "Time to take a rest"  -u critical -t 7000 -i /usr/local/sbin/sleep.png
 
   elif [[ "$OSTYPE" == "darwin"* ]]; then
-      terminal-notifier -title "Insomnia" -message "Time to take a rest"  -sound "default"  -group rest -timeout 7 -appIcon /usr/local/sbin/info.png  -contentImage /usr/local/sbin/sleep.png
+      terminal-notifier -title "Sandman" -message "Time to take a rest"  -sound "default"  -group rest -timeout 7  -appIcon /usr/local/sbin/sleep.png
   fi
 }
 function generateSleepTimes()
