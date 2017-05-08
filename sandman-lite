@@ -88,7 +88,7 @@ function setUpNotificationJobs()
   for i in {0..5}
   do
     if [[ $(date -d now +"%s") -le ${secondTimes[$i]} ]]; then
-      at -M -f /usr/local/sbin/noti.sh -t ${sleepTimes[$i]} 2> /dev/null
+      at -f /usr/local/sbin/noti.sh -t ${sleepTimes[$i]} 2> /dev/null
     fi
   done
   echo "New Notications set"
@@ -121,6 +121,7 @@ while getopts ":vrghts::" opt; do
       exit 1
       ;;
     t)
+      echo "Testing rest notification"
       showRestNotification
     ;;
     h)
