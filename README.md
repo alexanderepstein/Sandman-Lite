@@ -7,7 +7,7 @@
 
 
 
- ## Full Version Can Be Found <a href="https://github.com/alexanderepstein/Insomnia">here</a>
+ ## Full Version Can Be Found <a href="https://github.com/alexanderepstein/Sandman">here</a>
 
  Sandman will remind you to take a rest and that you can always come back to the work tomorrow.
 
