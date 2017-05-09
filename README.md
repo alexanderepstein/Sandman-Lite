@@ -63,6 +63,25 @@ cd ~/Sandman-Lite
 (⌐■_■)
 ```
 
+# Helping Out
+##### Feel free to fork this repository add some code and submit a pull request
+
+### List of yet to be implemented features
+* No autoupdate of sandman-lite or notification that update is available
+* Parse the -g option to be more human readable
+* Add option to show parsed times in 24 or 12 hour formatting
+* No uptime notification
+* No input validation
+* No error exiting
+
+## Bugs
+
+* All ```at``` jobs are removed
+ when sandman-lite removes the old notification jobs by just removing all jobs. If you regularly schedule jobs through '''at''' this application will cancel those jobs.
+  
+     Solution: Determine what the job id is of the notification as i set it so it can be specifically referenced for later deletion 
+
+* Uninstaller script doesn't uninstall the dependencies if they weren't their before installation of sandman-lite
 
 
 ## License
