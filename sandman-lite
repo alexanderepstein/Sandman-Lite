@@ -103,7 +103,7 @@ fi
 
 function getSleepTimes()
 {
-  atq
+  atq | sort -k 6n -k 3M -k 4n -k 5 -k 7 -k 1
 }
 
 while getopts ":vrghts::" opt; do
