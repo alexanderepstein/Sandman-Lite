@@ -6,7 +6,7 @@ echo "sandman-lite requires your password to continue installation"
 sudo cp assets/sleep.png /usr/local/sbin
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-    sudo apt-get install at notify-osd -y
+    sudo apt-get install at notify-osd libnotify-bin -y
 elif [[ "$OSTYPE" == "darwin"* ]]; then
 
 
