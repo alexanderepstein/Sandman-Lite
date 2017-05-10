@@ -92,22 +92,22 @@ function generateSleepTimes()
 
 function removeNotificationJobs()
 {
-  for i in `atq | awk '{print $1}'`;do atrm $i;done
+  for i in `atq | awk '{print $1}'`;do atrm $i;done  # removes all jobs that show up when the atq command is run
   echo "Old Notifications removed"
 }
 
 function setUpNotificationJobs()
 {
-  for i in {0..5}
+  for i in {0..5} # for each sleep time
   do
-    if [[ $(date -d now +"%s") -le ${secondTimes[$i]} ]]; then
-      at -f /usr/local/sbin/noti.sh -t ${sleepTimes[$i]} 2> /dev/null
+    if [[ $(date -d now +"%s") -le ${secondTimes[$i]} ]]; then # if the notification should have occured by now dont set it
+      at -f /usr/local/sbin/noti.sh -t ${sleepTimes[$i]} 2> /dev/null # set up the at job to run noti.sh an dont show the output (i will do this later plus it lets me parse it)
     fi
   done
   echo
   echo
   echo "Optimal sleep/shutdown times generated"
-  sandman-lite -g
+  sandman-lite -g # show the sleep times that were generated (hopefuly this will soon be updated to parse it and only grab the exact jobs)
   echo
   echo "New Notifications set"
 }
@@ -120,7 +120,7 @@ fi
 
 function getSleepTimes()
 {
-  atq | sort -k 6n -k 3M -k 4n -k 5 -k 7 -k 1
+  atq | sort -k 6n -k 3M -k 4n -k 5 -k 7 -k 1 # shows all jobs and sorts them by time of execution
 }
 
 while getopts ":vrghts::" opt; do
@@ -133,7 +133,7 @@ while getopts ":vrghts::" opt; do
       date +"%H:%M" -d "$OPTARG" > /dev/null  2>&1
         isValid=$?
       if [[ $isValid -eq 1 ]]; then
-        echo "Invalid time format ex 8:30"
+        echo "Invalid time format ex 8:30" >&2
         exit 1
       fi
       IFS=$oldIFS
