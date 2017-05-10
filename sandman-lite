@@ -64,6 +64,7 @@ function generateSleepTimes()
 
 
 
+
   for i in {5..0}
   do
       sleepTimes[$i]=$(date -d "${sleepTimes[$i+1]} - 1 hour 30 minutes" +"%D %H:%M")
