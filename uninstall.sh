@@ -1,7 +1,14 @@
 #!/bin/bash
 # Just a simple script to remove all sandman-lite related files
+# Version 1.1.0
+
 echo Uninstalling sandman-lite
-sudo rm /usr/local/sbin/sleep.png
-sudo rm /usr/local/bin/sandman-lite
-sudo rm /usr/local/sbin/noti.sh
-echo sandman-lite successfully removed
+
+echo "sandman-lite requires your password to continue the uninstall"
+
+
+
+sudo rm /usr/local/sbin/sleep.png  ||  ( echo "Uninstall failed" ; exit 1 )
+sudo rm /usr/local/bin/sandman-lite ||  ( echo "Uninstall failed" ; exit 1 )
+sudo rm /usr/local/sbin/noti.sh ||  ( echo "Uninstall failed" ; exit 1 )
+echo "sandman-lite successfully removed"
