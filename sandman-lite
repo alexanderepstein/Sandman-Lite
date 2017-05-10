@@ -161,7 +161,7 @@ while getopts ":vrghts::" opt; do
       removeNotificationJobs
     ;;
     v)
-      echo "Version 1.0.0"
+      echo "Version 1.1.0"
     ;;
     :)
       echo "Option -$OPTARG requires an argument." >&2
