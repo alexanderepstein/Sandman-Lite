@@ -77,7 +77,7 @@ function generateSleepTimes()
   done
 }
 
-function removeNotificatonJobs()
+function removeNotificationJobs()
 {
   for i in `atq | awk '{print $1}'`;do atrm $i;done
   echo "Old Notifications removed"
@@ -85,11 +85,10 @@ function removeNotificatonJobs()
 
 function setUpNotificationJobs()
 {
-  removeNotificatonJobs
   for i in {0..5}
   do
     if [[ $(date -d now +"%s") -le ${secondTimes[$i]} ]]; then
-      at -f /usr/local/sbin/noti.sh -t ${sleepTimes[$i]} 2> /dev/null
+      at -f /usr/local/sbin/noti.sh -t ${sleepTimes[$i]}
     fi
   done
   echo "New Notifications set"
@@ -121,6 +120,8 @@ while getopts ":vrghts::" opt; do
       fi
       IFS=$oldIFS
       wakeUpTime=$OPTARG
+      wakeUpTime=$( date +"%H:%M" -d "$wakeUpTime" )
+      sandman-lite -r
       generateSleepTimes
       setUpNotificationJobs
       ;;
@@ -139,7 +140,7 @@ while getopts ":vrghts::" opt; do
       getSleepTimes
     ;;
     r)
-      removeNotificatonJobs
+      removeNotificationJobs
     ;;
     v)
       echo "Version 1.0.0"
