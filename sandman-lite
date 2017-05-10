@@ -4,15 +4,19 @@
 #wake up time and the optimal sleep times algorithm.
 #Version 1.0.0
 
+# This basically allows me to call date instead of having to call the OS
+# specific version and checking OS every time this is called
 date () {
     case "$OSTYPE" in
-      darwin*) command gdate "$@" ;;
-      linux*)  command date  "$@" ;;
-      *) printf 'Unsupported OS type: %s\n' "$OSTYPE" >&2
+      darwin*) command gdate "$@" ;; # gdate is for OSX was installed with coreutils from homebrew
+      linux*)  command date  "$@" ;; # date is built in
+      *) printf 'Unsupported OS type: %s\n' "$OSTYPE" >&2 # The OS is unsupported let the user know
          exit 1 ;;
      esac
 }
 
+
+# Lets the user know how to use the program
 function help()
 {
   echo "NAME: sandman-lite"
@@ -24,27 +28,33 @@ function help()
   echo "    [-v] (prints out version of sandman-lite)"
 }
 
+
+# This function is used inside of here when testing a notification
+# and is also called from noti.sh as a workaround on mac for a bug present in
+# terminal-notifier
 function showRestNotification()
 {
   if [[ "$OSTYPE" == "linux-gnu" ]]; then
-      notify-send "Sandman" "Time to take a rest"  -u critical -t 7000 -i /usr/local/sbin/sleep.png
+      notify-send "Sandman" "Time to take a rest"  -u critical -t 7000 -i /usr/local/sbin/sleep.png # send a notification the critical makes sure the notification shows up even if user is fullscreened into something
 
   elif [[ "$OSTYPE" == "darwin"* ]]; then
-      terminal-notifier -title "Sandman" -message "Time to take a rest"  -sound "default"  -group rest -timeout 7  -appIcon /usr/local/sbin/sleep.png
+      terminal-notifier -title "Sandman" -message "Time to take a rest"  -sound "default"  -group rest -timeout 7  -appIcon /usr/local/sbin/sleep.png # send a notification for OSX
   fi
 }
 function generateSleepTimes()
 {
 
-  oldIFS=$IFS
-  IFS=: splitTime=(${wakeUpTime##*-})
-  wakeUpHours=${splitTime[0]}
-  wakeUpMinutes=${splitTime[1]}
-  currentHours=$(date +'%H')
-  currentMinutes=$(date +'%M')
+  oldIFS=$IFS #so it can be set back late
+  IFS=: splitTime=(${wakeUpTime##*-}) #split up the wakeUpTime string using : as a delimeter into an array called splitTime
+  wakeUpHours=${splitTime[0]} # index 0 of split time is the hour of the wake up time
+  wakeUpMinutes=${splitTime[1]} # index 1 of split time is the minutes of the wake up time
+  currentHours=$(date +'%H') # grab the current times hour
+  currentMinutes=$(date +'%M') # grab the current times minutes
 
 
-
+# this code block is checking whether the time the user input is actually for today or tommorrow
+# by originally assuming it is meant for today and checking if the wakeUpTime already occured if it did
+# then it is assumed the user meant for the time to be tomorrow otherwise it is taken as today
   if [[ $wakeUpHours < $currentHours ]]; then
         IFS=$oldIFS
         wakeUpTime="$wakeUpTime tomorrow"
@@ -59,22 +69,24 @@ function generateSleepTimes()
         wakeUpTime="$wakeUpTime today"
 
   fi
-      tempTime=$(date -d "$wakeUpTime - 15 minutes" +"%D %H:%M")
-      sleepTimes[6]=$(date -d "$tempTime" +"%D %H:%M")
+
+
+      tempTime=$(date -d "$wakeUpTime - 15 minutes" +"%D %H:%M") # account for the time it takes to fall asleep
+      sleepTimes[6]=$(date -d "$tempTime" +"%D %H:%M") # throw it in the top of the array so the value can be used in the following for loop as a starting point
 
 
 
 
   for i in {5..0}
   do
-      sleepTimes[$i]=$(date -d "${sleepTimes[$i+1]} - 1 hour 30 minutes" +"%D %H:%M")
+      sleepTimes[$i]=$(date -d "${sleepTimes[$i+1]} - 1 hour 30 minutes" +"%D %H:%M") # subtract one sleep cycle from the previous time to get the new sleep/shutdown time
   done
 
 
   for i in {5..0}
   do
-      secondTimes[$i]=$(date -d "${sleepTimes[$i]}" +"%s")
-      sleepTimes[$i]=$(date -d "${sleepTimes[$i]}" +"%Y%m%d%H%M")
+      secondTimes[$i]=$(date -d "${sleepTimes[$i]}" +"%s") # get the amount of time in EPOCH for later testing
+      sleepTimes[$i]=$(date -d "${sleepTimes[$i]}" +"%Y%m%d%H%M") # format the time to be used with the at command
   done
 }
 
