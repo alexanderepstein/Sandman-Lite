@@ -18,7 +18,7 @@ function help()
   echo "NAME: sandman-lite"
   echo "Usage: "
   echo "    [-t] (tests notification)"
-  echo "    [-s wakeUpTime] wakeuptime 24 hour time zeros necessary ex. 08:05 (sets new wakeuptime)"
+  echo "    [-s wakeUpTime] wakeuptime 24 hour time ex. 8:05 (sets new wakeuptime)"
   echo "    [-g] (gets pending notifications)"
   echo "    [-h] (brings up the help page)"
   echo "    [-v] (prints out version of sandman-lite)"
@@ -113,6 +113,13 @@ while getopts ":vrghts::" opt; do
         echo "Option -s only accepts one argument" <&2
         exit 1
       fi
+      date +"%H:%M" -d "$OPTARG" > /dev/null  2>&1
+        isValid=$?
+      if [[ $isValid -eq 1 ]]; then
+        echo "Invalid time format ex 8:30"
+        exit 1
+      fi
+      IFS=$oldIFS
       wakeUpTime=$OPTARG
       generateSleepTimes
       setUpNotificationJobs
