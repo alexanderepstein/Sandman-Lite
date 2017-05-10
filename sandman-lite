@@ -88,9 +88,14 @@ function setUpNotificationJobs()
   for i in {0..5}
   do
     if [[ $(date -d now +"%s") -le ${secondTimes[$i]} ]]; then
-      at -f /usr/local/sbin/noti.sh -t ${sleepTimes[$i]}
+      at -f /usr/local/sbin/noti.sh -t ${sleepTimes[$i]} 2> /dev/null
     fi
   done
+  echo
+  echo
+  echo "Optimal sleep/shutdown times generated"
+  sandman-lite -g
+  echo
   echo "New Notifications set"
 }
 
