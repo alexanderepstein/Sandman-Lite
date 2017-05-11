@@ -150,26 +150,12 @@ function checkForUpdate()
   read answer
   echo $answer
   if [[ "$answer" == "Y" || "$answer" == "y" ]] ;then
-    echo "Should update"
     /usr/local/sbin/./supdate.sh
      exit 0
   else
       exit 0
   fi
-: 'if [[ "$yn" == "y" || "$yn" == "Y" ]];then
 
-  at now -f /usr/local/sbin/sandmanupdate.sh
-   exit 0
-
-else if [["$yn" == "n" || "$yn" == "N" ]]; then
-    exit 0
-
-else
-
-  echo "Please answer y or n."
-  sandman-lite -u
-fi
-'
 else
   echo "sandman-lite is already the latest version"
 fi
