@@ -67,7 +67,6 @@ cd ~/Sandman-Lite
 ##### Feel free to fork this repository add some code and submit a pull request
 
 ### List of yet to be implemented features
-* No autoupdate of sandman-lite or notification that update is available
 * Parse the -g option to be more human readable
 * Add option to show parsed times in 24 or 12 hour formatting
 * No uptime notification
