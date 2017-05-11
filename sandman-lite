@@ -6,6 +6,9 @@
 
 # This basically allows me to call date instead of having to call the OS
 # specific version and checking OS every time this is called
+
+currentVersion=1.1.0
+
 date () {
     case "$OSTYPE" in
       darwin*) command gdate "$@" ;; # gdate is for OSX was installed with coreutils from homebrew
@@ -24,6 +27,7 @@ function help()
   echo "    [-t] (tests notification)"
   echo "    [-s wakeUpTime] wakeuptime 24 hour time ex. 8:05 (sets new wakeuptime)"
   echo "    [-g] (gets pending notifications)"
+  echo "    [-u] (checks for and installs updates)"
   echo "    [-h] (brings up the help page)"
   echo "    [-v] (prints out version of sandman-lite)"
 }
@@ -137,7 +141,36 @@ if [[ $# == 0 ]]; then
   exit 0
 fi
 
+function checkForUpdate()
+{
+  latestVersion=$(curl -s https://api.github.com/repos/alexanderepstein/Sandman-Lite/tags | grep -Po '"name":.*?[^\\]",'| head -1 | cut -c11-15)
+  if [[ "${latestVersion[1]}" != "$currentVersion" ]]; then
+    echo "Version $latestVersion available"
+  answer=$(read -p "Do you wish to update sandman-lite: ")
+  if echo "$answer" | grep -iq "^y" ;then
+    at now -f /usr/local/sbin/sandmanupdate.sh
+     exit 0
+  else
+      exit 0
+  fi
+: 'if [[ "$yn" == "y" || "$yn" == "Y" ]];then
 
+  at now -f /usr/local/sbin/sandmanupdate.sh
+   exit 0
+
+else if [["$yn" == "n" || "$yn" == "N" ]]; then
+    exit 0
+
+else
+
+  echo "Please answer y or n."
+  sandman-lite -u
+fi
+'
+else
+  echo "sandman-lite is already the latest version"
+fi
+}
 
 
 function getSleepTimes()
@@ -145,7 +178,7 @@ function getSleepTimes()
   atq | sort -k 6n -k 3M -k 4n -k 5 -k 7 -k 1 # shows all jobs and sorts them by time of execution
 }
 
-while getopts ":vrghts::" opt; do
+while getopts ":uvrghts::" opt; do
   case $opt in
     s)
       if [[ $# -gt 2 ]]; then
@@ -184,6 +217,9 @@ while getopts ":vrghts::" opt; do
     ;;
     v)
       echo "Version 1.1.0"
+    ;;
+    u)
+      checkForUpdate
     ;;
     :)
       echo "Option -$OPTARG requires an argument." >&2

@@ -68,6 +68,8 @@ sudo cp sandman-lite /usr/local/bin ||  ( echo "Installation failed" ; exit 1 )
 sudo chmod a+x /usr/local/bin/sandman-lite ||  ( echo "Installation failed" ; exit 1 )
 sudo cp assets/noti.sh /usr/local/sbin ||  ( echo "Installation failed" ; exit 1 )
 sudo chmod a+x /usr/local/sbin/noti.sh ||  ( echo "Installation failed" ; exit 1 )
+such cp assets/sandmanupdate.sh /usr/local/sbin ||  ( echo "Installation failed" ; exit 1 )
+sudo chmod a+x /usr/local/sbin/sandmanupdate.sh ||  ( echo "Installation failed" ; exit 1 )
 sudo chmod a+x uninstall.sh ||  ( echo "Installation failed" ; exit 1 )
 echo
 echo "sandman-lite installed sucessfully"
