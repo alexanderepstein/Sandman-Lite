@@ -32,6 +32,7 @@ function help()
 # This function is used inside of here when testing a notification
 # and is also called from noti.sh as a workaround on mac for a bug present in
 # terminal-notifier
+
 function showRestNotification()
 {
   if [[ "$OSTYPE" == "linux-gnu" ]]; then
@@ -41,6 +42,17 @@ function showRestNotification()
       terminal-notifier -title "Sandman" -message "Time to take a rest"  -sound "default"  -group rest -timeout 7  -appIcon /usr/local/sbin/sleep.png # send a notification for OSX
   fi
 }
+
+
+function writeResetFile()
+{
+  cd  ~
+  mkdir Sandman-Lite 2> /dev/null
+  cd Sandman-Lite
+  touch resetSandman.sh
+  echo "sandman-lite -s $wakeUpTime" > ~/Sandman-Lite/resetSandman.sh
+}
+
 function generateSleepTimes()
 {
 
@@ -73,7 +85,8 @@ function generateSleepTimes()
 
       tempTime=$(date -d "$wakeUpTime - 15 minutes" +"%D %H:%M") # account for the time it takes to fall asleep
       sleepTimes[6]=$(date -d "$tempTime" +"%D %H:%M") # throw it in the top of the array so the value can be used in the following for loop as a starting point
-
+      sleepTimes[7]=$(date -d "${sleepTimes[6]} + 1 hour 30 minutes" +"%Y%m%d%H%M")
+      wakeUpTime=$(date -d "$wakeUpTime"  +"%H:%M")
 
 
 
@@ -96,6 +109,10 @@ function removeNotificationJobs()
   echo "Old Notifications removed"
 }
 
+
+
+
+
 function setUpNotificationJobs()
 {
   for i in {0..5} # for each sleep time
@@ -104,6 +121,8 @@ function setUpNotificationJobs()
       at -f /usr/local/sbin/noti.sh -t ${sleepTimes[$i]} 2> /dev/null # set up the at job to run noti.sh an dont show the output (i will do this later plus it lets me parse it)
     fi
   done
+  writeResetFile
+  at -f ~/Sandman-Lite/resetSandman.sh -t ${sleepTimes[7]} 2> /dev/null
   echo
   echo
   echo "Optimal sleep/shutdown times generated"
@@ -117,6 +136,9 @@ if [[ $# == 0 ]]; then
   help
   exit 0
 fi
+
+
+
 
 function getSleepTimes()
 {
