@@ -144,7 +144,7 @@ fi
 function checkForUpdate()
 {
   latestVersion=$(curl -s https://api.github.com/repos/alexanderepstein/Sandman-Lite/tags | grep -Po '"name":.*?[^\\]",'| head -1 | cut -c11-15)
-  if [[ "${latestVersion[1]}" != "$currentVersion" ]]; then
+  if [[ "$latestVersion" != "$currentVersion" ]]; then
     echo "Version $latestVersion available"
     echo -n "Do you wish to update sandman-lite: "
   read answer
