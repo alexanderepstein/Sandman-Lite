@@ -146,7 +146,7 @@ function checkForUpdate()
   latestVersion=$(curl -s https://api.github.com/repos/alexanderepstein/Sandman-Lite/tags | grep -Po '"name":.*?[^\\]",'| head -1 | cut -c11-15)
   if [[ "$latestVersion" != "$currentVersion" ]]; then
     echo "Version $latestVersion available"
-    echo -n "Do you wish to update sandman-lite: "
+    echo -n "Do you wish to update sandman-lite [Y/n]: "
     read answer
   if [[ "$answer" == "Y" || "$answer" == "y" ]] ;then
     /usr/local/sbin/./supdate.sh

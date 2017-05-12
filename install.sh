@@ -7,10 +7,10 @@ currentVersion="1.2.0"
 echo "sandman-lite requires your password to continue installation"
 
 
-sudo cp assets/sleep.png /usr/local/sbin ||  ( echo "Installation failed" ; exit 1 )
+sudo cp assets/sleep.png /usr/local/sbin ||  { echo "Installation failed" ; exit 1 ;}
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-    sudo apt-get install at notify-osd libnotify-bin -y ||  ( echo "Installation failed" ; exit 1 )
+    sudo apt-get install at notify-osd libnotify-bin -y ||  { echo "Installation failed" ; exit 1 ;}
 elif [[ "$OSTYPE" == "darwin"* ]]; then
 
 
@@ -28,7 +28,7 @@ else
   echo
   echo "Installing terminal-notifier"
   echo
-  brew install terminal-notifier ||  ( echo "Installation failed" ; exit 1 )
+  brew install terminal-notifier ||  { echo "Installation failed" ; exit 1 ;}
   echo
   echo
 fi
@@ -43,7 +43,7 @@ else
   echo
   echo "Installing reattach-to-user-namespace"
   echo
-  brew install reattach-to-user-namespace ||  ( echo "Installation failed" ; exit 1 )
+  brew install reattach-to-user-namespace ||  { echo "Installation failed" ; exit 1 ;}
   echo
   echo
 fi
@@ -59,18 +59,18 @@ else
   echo
   echo "Installing coreutils"
   echo
-  brew install coreutils ||  ( echo "Installation failed" ; exit 1 )
+  brew install coreutils ||  { echo "Installation failed" ; exit 1 ;}
   echo
   echo
 fi
 fi
-sudo cp sandman-lite /usr/local/bin ||  ( echo "Installation failed" ; exit  )
-sudo chmod a+x /usr/local/bin/sandman-lite ||  ( echo "Installation failed" ; exit )
-sudo cp assets/noti.sh /usr/local/sbin ||  ( echo "Installation failed" ; exit )
-sudo chmod a+x /usr/local/sbin/noti.sh ||  ( echo "Installation failed" ; exit )
-sudo cp assets/supdate.sh /usr/local/sbin ||  ( echo "Installation failed" ; exit )
-sudo chmod a+x /usr/local/sbin/supdate.sh ||  ( echo "Installation failed" ; exit )
-sudo chmod a+x uninstall.sh ||  ( echo "Installation failed" ; exit )
+sudo cp sandman-lite /usr/local/bin ||  { echo "Installation failed" ; exit 1 ;}
+sudo chmod a+x /usr/local/bin/sandman-lite ||  { echo "Installation failed" ; exit 1 ;}
+sudo cp assets/noti.sh /usr/local/sbin ||  { echo "Installation failed" ; exit 1 ;}
+sudo chmod a+x /usr/local/sbin/noti.sh ||  { echo "Installation failed" ; exit 1 ;}
+sudo cp assets/supdate.sh /usr/local/sbin ||  { echo "Installation failed" ; exit 1 ;}
+sudo chmod a+x /usr/local/sbin/supdate.sh ||  { echo "Installation failed" ; exit 1 ;}
+sudo chmod a+x uninstall.sh ||  { echo "Installation failed" ; exit 1 ;}
 echo
 echo "sandman-lite $currentVersion installed sucessfully"
 echo
