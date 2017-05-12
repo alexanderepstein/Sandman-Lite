@@ -147,8 +147,7 @@ function checkForUpdate()
   if [[ "$latestVersion" != "$currentVersion" ]]; then
     echo "Version $latestVersion available"
     echo -n "Do you wish to update sandman-lite: "
-  read answer
-  echo $answer
+    read answer
   if [[ "$answer" == "Y" || "$answer" == "y" ]] ;then
     /usr/local/sbin/./supdate.sh
      exit 0
