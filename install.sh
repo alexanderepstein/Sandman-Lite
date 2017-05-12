@@ -2,7 +2,7 @@
 # Just copies the files over from the project directory into usr/local/bin
 # This automatically adds sandman-lite to the path on both OSX and Linux
 # Version 1.2.0
-
+currentVersion="1.2.0"
 
 echo "sandman-lite requires your password to continue installation"
 
@@ -72,7 +72,7 @@ sudo cp assets/supdate.sh /usr/local/sbin ||  ( echo "Installation failed" ; exi
 sudo chmod a+x /usr/local/sbin/supdate.sh ||  ( echo "Installation failed" ; exit )
 sudo chmod a+x uninstall.sh ||  ( echo "Installation failed" ; exit )
 echo
-echo "sandman-lite installed sucessfully"
+echo "sandman-lite $currentVersion installed sucessfully"
 echo
 echo "( •_•)"
 echo "( •_•)>⌐■-■"
