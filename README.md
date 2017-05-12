@@ -47,7 +47,13 @@ To test the rest notification behavior ```sandman-lite -t```
 
 To remove all pending notifications ```sandman-lite -r```
 
+To check for and download/install sandman-lite updates ```sandman-lite -u```
+
+To get help using sandman-lite ```sandman-lite -h```
+
 To get sandman-lite version ```sandman-lite -v```
+
+
 
 ## Removing
 ```bash
