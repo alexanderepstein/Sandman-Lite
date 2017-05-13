@@ -31,13 +31,28 @@ Inspired by http://sleepyti.me
 
 ## Installing
 
+#### 1). Get The Source Code
+
 ```bash
 cd ~
 git clone https://github.com/alexanderepstein/Sandman-Lite
 cd Sandman-Lite
-chmod a+x install.sh
-./install.sh
 ```
+ #### 2). Install sandman-lite
+ 
+ ###### To install the latest stable release 
+ ```bash
+ git checkout v1.2.1
+ chmod a+x install.sh
+ ./install.sh
+ ```
+  ###### To install the nightly builds
+   ```bash
+ chmod a+x install.sh
+ ./install.sh
+ ```
+  
+ 
 ## Usage
 First set a desired wake up time using ```sandman-lite -s xx:xx```
 
@@ -78,7 +93,7 @@ cd ~/Sandman-Lite
 * No uptime notification
 * No error exiting
 
-## Bugs
+## Known Bugs
 
 * All ```at``` jobs are removed
  when sandman-lite removes the old notification jobs by just removing all jobs. If you regularly schedule jobs through '''at''' this application will cancel those jobs.
