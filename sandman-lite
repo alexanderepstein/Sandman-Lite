@@ -96,7 +96,7 @@ function generateSleepTimes()
 
   for i in {5..0}
   do
-      sleepTimes[$i]=$(date -d "${sleepTimes[$i+1]} - 1 hour 30 minutes" +"%D %H:%M") # subtract one sleep cycle from the previous time to get the new sleep/shutdown time
+      sleepTimes[$i]=$(date -d "${sleepTimes[$i+1]} - 1 hour - 30 minutes" +"%D %H:%M") # subtract one sleep cycle from the previous time to get the new sleep/shutdown time
   done
 
 
