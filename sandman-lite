@@ -2,12 +2,21 @@
 #sandman-lite
 #An application that will remind you when to go to bed based on your
 #wake up time and the optimal sleep times algorithm.
-#Version 1.3.0
+#Version 1.3.1
 
 # This basically allows me to call date instead of having to call the OS
 # specific version and checking OS every time this is called
 
-currentVersion=1.3.0
+currentVersion=1.3.1
+
+grep() {
+  case "$OSTYPE" in
+    darwin*) command ggrep "$@" ;; # gdate is for OSX was installed with coreutils from homebrew
+    linux*)  command grep  "$@" ;; # date is built in
+    *) printf 'Unsupported OS type: %s\n' "$OSTYPE" >&2 # The OS is unsupported let the user know
+       exit 1 ;;
+   esac
+}
 
 date () {
     case "$OSTYPE" in

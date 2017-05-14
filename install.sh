@@ -48,6 +48,20 @@ else
   echo
 fi
 
+if [[ $(brew ls --versions grep )> /dev/null ]]; then
+echo
+echo "ggrep already installed :)"
+echo
+echo
+echo
+else
+  echo
+  echo "Installing ggrep"
+  echo
+  brew install grep > /dev/null  ||  { echo "Installation failed" ; exit 1 ;}
+  echo
+  echo
+fi
 
 if [[ $(brew ls --versions coreutils )> /dev/null ]]; then
 echo
