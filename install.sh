@@ -1,8 +1,8 @@
 #!/bin/bash
 # Just copies the files over from the project directory into usr/local/bin
 # This automatically adds sandman-lite to the path on both OSX and Linux
-# Version 1.2.2
-currentVersion="1.2.2"
+# Version 1.3.0
+currentVersion="1.3.0"
 
 echo "sandman-lite requires your password to continue installation"
 
