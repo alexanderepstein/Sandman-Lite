@@ -89,14 +89,14 @@ function generateSleepTimes()
 
       tempTime=$(date -d "$wakeUpTime - 15 minutes" +"%D %H:%M") # account for the time it takes to fall asleep
       sleepTimes[6]=$(date -d "$tempTime" +"%D %H:%M") # throw it in the top of the array so the value can be used in the following for loop as a starting point
-      sleepTimes[7]=$(date -d "${sleepTimes[6]} + 1 hour 30 minutes" +"%Y%m%d%H%M")
+      sleepTimes[7]=$(date -d "$wakeUpTime + 1 hour 15 minutes" +"%Y%m%d%H%M")
       wakeUpTime=$(date -d "$wakeUpTime"  +"%H:%M")
 
 
 
   for i in {5..0}
   do
-      sleepTimes[$i]=$(date -d "${sleepTimes[$i+1]} - 1 hour - 30 minutes" +"%D %H:%M") # subtract one sleep cycle from the previous time to get the new sleep/shutdown time
+      sleepTimes[$i]=$(date -d "${sleepTimes[$i+1]} - 1 hour 30 minutes" +"%D %H:%M") # subtract one sleep cycle from the previous time to get the new sleep/shutdown time
   done
 
 
@@ -126,6 +126,7 @@ function setUpNotificationJobs()
     fi
   done
   writeResetFile
+  echo  ${sleepTimes[7]}
   at -f ~/Sandman-Lite/resetSandman.sh -t ${sleepTimes[7]} 2> /dev/null
   echo
   echo
