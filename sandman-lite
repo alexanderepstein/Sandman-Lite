@@ -163,6 +163,7 @@ function checkForUpdate()
     echo -n "Do you wish to update sandman-lite [Y/n]: "
     read answer
   if [[ "$answer" == "Y" || "$answer" == "y" ]] ;then
+    sandman-lite -r
     /usr/local/sbin/./supdate.sh
      exit 0
   else
