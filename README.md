@@ -39,10 +39,10 @@ git clone https://github.com/alexanderepstein/Sandman-Lite
 cd Sandman-Lite
 ```
  #### 2). Install sandman-lite
- 
- ###### To install the latest stable release 
+
+ ###### To install the latest stable release
  ```bash
- git checkout v1.2.1
+ git checkout v1.2.2
  chmod a+x install.sh
  ./install.sh
  ```
@@ -51,8 +51,8 @@ cd Sandman-Lite
  chmod a+x install.sh
  ./install.sh
  ```
-  
- 
+
+
 ## Usage
 First set a desired wake up time using ```sandman-lite -s xx:xx```
 

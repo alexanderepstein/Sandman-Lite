@@ -1,6 +1,6 @@
 #!/bin/bash
 # Just a simple script to remove all sandman-lite related files
-# Version 1.2.1
+# Version 1.2.2
 
 echo Uninstalling sandman-lite
 

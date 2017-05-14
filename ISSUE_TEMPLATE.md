@@ -11,5 +11,4 @@
 
 
 
-**Version of Insomnia Application:**
-
+**Version of Sandman-Lite:**
