@@ -1,5 +1,5 @@
 #!/bin/bash
-# Version 1.3.1
+# Version 1.4.0
   if (uname -o | grep Linux);then
       notify-send "Sandman" "Time to take a rest"  -u critical -t 7000 -i sleep.ico
   elif [[ "$OSTYPE" == "darwin"* ]]; then

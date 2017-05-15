@@ -42,7 +42,7 @@ cd Sandman-Lite
 
  ###### To install the latest stable release
  ```bash
- git checkout v1.3.1
+ git checkout v1.4.0
  chmod a+x install.sh
  ./install.sh
  ```
@@ -88,7 +88,6 @@ cd ~/Sandman-Lite
 ##### Feel free to fork this repository add some code and submit a pull request
 
 ### List of yet to be implemented features
-* Parse the -g option to be more human readable
 * Add option to show parsed times in 24 or 12 hour formatting
 * No uptime notification
 * No error exiting in main script
