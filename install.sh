@@ -86,10 +86,15 @@ sudo cp assets/supdate.sh /usr/local/sbin ||  { echo "Installation failed" ; exi
 sudo chmod a+x /usr/local/sbin/supdate.sh ||  { echo "Installation failed" ; exit 1 ;}
 sudo chmod a+x uninstall.sh ||  { echo "Installation failed" ; exit 1 ;}
 echo
+echo
+echo -n "( •_•)"
+sleep .75
+echo -n -e "\r( •_•)>⌐■-■"
+sleep .75
+echo -n -e "\r               "
+
+echo  -e "\r(⌐■_■)"
+sleep .5
+echo
+echo
 echo "sandman-lite $currentVersion installed sucessfully"
-echo
-echo "( •_•)"
-echo "( •_•)>⌐■-■"
-echo "(⌐■_■)"
-echo
-echo
