@@ -36,7 +36,7 @@ function help()
   echo "Author: Alexander Epstein"
   echo
   echo "Description:
-    Based on the time you need to wake up Sandman  will notify you throughout the
+    Based on the time you need to wake up  Sandman  will notify you throughout the
     evening at specific times when you could go to sleep and maximize your number
     of full sleep cycles."
   echo
