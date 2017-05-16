@@ -31,14 +31,26 @@ date () {
 # Lets the user know how to use the program
 function help()
 {
-  echo "NAME: sandman-lite"
+  echo "Name: sandman-lite"
+  echo
+  echo "Author: Alexander Epstein"
+  echo
+  echo "Description:
+    Based on the time you need to wake up Sandman  will notify you throughout the
+    evening at specific times when you could go to sleep and maximize your number
+    of full sleep cycles."
+  echo
   echo "Usage: "
-  echo "    [-t] (tests notification)"
   echo "    [-s wakeUpTime] wakeuptime 24 hour time ex. 8:05 (sets new wakeuptime)"
+  echo "    [-t] (tests notification)"
   echo "    [-g] (gets pending notifications)"
   echo "    [-u] (checks for and installs updates)"
   echo "    [-h] (brings up the help page)"
   echo "    [-v] (prints out version of sandman-lite)"
+  echo
+  echo "Repository: https://github.com/alexanderepstein/Sandman-Lite"
+  echo
+  echo "Version: 1.4.0"
 }
 
 
