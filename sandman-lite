@@ -2,12 +2,12 @@
 #sandman-lite
 #An application that will remind you when to go to bed based on your
 #wake up time and the optimal sleep times algorithm.
-#Version 1.4.1
+#Version 1.4.2
 
 # This basically allows me to call date instead of having to call the OS
 # specific version and checking OS every time this is called
 
-currentVersion=1.4.1
+currentVersion=1.4.2
 
 grep() {
   case "$OSTYPE" in
@@ -50,7 +50,7 @@ function help()
   echo
   echo "Repository: https://github.com/alexanderepstein/Sandman-Lite"
   echo
-  echo "Version: 1.4.1"
+  echo "Version: 1.4.2"
 }
 
 

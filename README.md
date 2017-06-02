@@ -42,7 +42,7 @@ cd Sandman-Lite
 
  ###### To install the latest stable release
  ```bash
- git checkout v1.4.1
+ git checkout v1.4.2
  chmod a+x install.sh
  ./install.sh
  ```
@@ -96,11 +96,11 @@ cd ~/Sandman-Lite
 
 * Uninstaller script doesn't uninstall the dependencies if they weren't their before installation of sandman-lite
 
-## Donate 
+## Donate
 If this project helped you in any way and you feel like buying a broke college kid a cup of coffee
 
 [![Donate](https://img.shields.io/badge/Donate-Venmo-blue.svg)](https://venmo.com/AlexanderEpstein)
-[![Donate](https://img.shields.io/badge/Donate-SquareCash-green.svg)](https://cash.me/$AlexEpstein) 
+[![Donate](https://img.shields.io/badge/Donate-SquareCash-green.svg)](https://cash.me/$AlexEpstein)
 
 ## License
 
