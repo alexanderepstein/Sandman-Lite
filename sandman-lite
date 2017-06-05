@@ -161,7 +161,7 @@ function setUpNotificationJobs()
   writeResetFile
   at -f ~/Sandman-Lite/resetSandman.sh -t ${sleepTimes[7]} 2> /dev/null
   jobID[${#jobID[@]}]=$(atq | sort -k 1 | tail -1 | cut -d " " -f1 | awk '{print $1;}')
-  echo ${jobID[@]} > ~/Sandman-Lite/jobIDS.txt
+  echo "${jobID[@]}" > ~/Sandman-Lite/jobIDS.txt
   echo
   echo
   echo "Optimal sleep/shutdown times generated"
@@ -203,7 +203,18 @@ fi
 
 function getSleepTimes()
 {
-  atq | sort -k 1 | cut -f2 | cut -d " " -f1-5  # shows all jobs and sorts them by job ID and parses it to be more readable
+  oldIFS=$IFS
+  IFS=' ' read -d '' -r -a jobID < ~/Sandman-Lite/jobIDS.txt 2> /dev/null
+  IFS=$oldIFS
+  tempLength=0
+  maxlength=$(echo ${#jobID[@]})
+  ((maxlength = maxlength -1))
+  while [[ $tempLength -ne $maxlength ]]
+  do
+  atq | grep -P -e "${jobID[$tempLength]}" 2> /dev/null | cut -f2 | cut -d " " -f1-5  # shows all jobs and sorts them by job ID and parses it to be more readable
+  ((tempLength=$tempLength + 1))
+
+  done
 }
 
 while getopts ":uvrghts::" opt; do
