@@ -2,12 +2,12 @@
 #sandman-lite
 #An application that will remind you when to go to bed based on your
 #wake up time and the optimal sleep times algorithm.
-#Version 1.5.0
+#Version 1.5.1
 
 # This basically allows me to call date instead of having to call the OS
 # specific version and checking OS every time this is called
 
-currentVersion=1.5.0
+currentVersion=1.5.1
 
 grep() {
   case "$OSTYPE" in
@@ -50,7 +50,7 @@ function help()
   echo
   echo "Repository: https://github.com/alexanderepstein/Sandman-Lite"
   echo
-  echo "Version: 1.5.0"
+  echo "Version: 1.5.1"
 }
 
 
@@ -71,9 +71,9 @@ function showRestNotification()
 
 function writeResetFile()
 {
-  cd  ~
+  cd  ~ || { echo "Writing the reset file failed" ; exit 1 ;}
   mkdir Sandman-Lite 2> /dev/null
-  cd Sandman-Lite
+  cd Sandman-Lite || { echo "Writing the reset file failed" ; exit 1 ;}
   touch resetSandman.sh
   echo "sandman-lite -s $wakeUpTime" > ~/Sandman-Lite/resetSandman.sh
 }
@@ -130,6 +130,9 @@ function generateSleepTimes()
 
 function removeNotificationJobs()
 {
+  test -f ~/Sandman-Lite/jobIDS.txt
+  validFile=$( echo $? )
+  if [[ $validFile -eq '0' ]]; then
   oldIFS=$IFS
   IFS=' ' read -d '' -r -a jobID < ~/Sandman-Lite/jobIDS.txt 2> /dev/null
   IFS=$oldIFS
@@ -142,6 +145,9 @@ function removeNotificationJobs()
 
   done
   echo "Old Notifications removed"
+else
+  echo "No notifications have ever been setup"
+fi
 }
 
 
@@ -150,7 +156,7 @@ function removeNotificationJobs()
 
 function setUpNotificationJobs()
 {
-  rm ~/Sandman-Lite/jobIDS.txt 2> /dev/null
+  
   for i in {0..5} # for each sleep time
   do
     if [[ $(date -d now +"%s") -le ${secondTimes[$i]} ]]; then # if the notification should have occured by now dont set it
@@ -188,11 +194,10 @@ function checkForUpdate()
     echo -n "Do you wish to update sandman-lite [Y/n]: "
     read answer
   if [[ "$answer" == "Y" || "$answer" == "y" ]] ;then
-    sandman-lite -r
+    removeNotificationJobs
     /usr/local/sbin/./supdate.sh
-     exit 0
   else
-      exit 0
+      exit 1
   fi
 
 else
@@ -232,7 +237,7 @@ while getopts ":uvrghts::" opt; do
       IFS=$oldIFS
       wakeUpTime=$OPTARG
       wakeUpTime=$( date +"%H:%M" -d "$wakeUpTime" )
-      sandman-lite -r
+      removeNotificationJobs
       generateSleepTimes
       setUpNotificationJobs
       ;;
