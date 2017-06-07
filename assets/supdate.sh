@@ -1,5 +1,5 @@
 #!/bin/bash
-# Version 1.5.1
+# Version 1.6.0
 grep() {
   case "$OSTYPE" in
     darwin*) command ggrep "$@" ;; # gdate is for OSX was installed with coreutils from homebrew

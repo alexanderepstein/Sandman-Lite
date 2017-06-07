@@ -42,7 +42,7 @@ cd Sandman-Lite
 
  ###### To install the latest stable release
  ```bash
- git checkout v1.5.1
+ git checkout v1.6.0
  chmod a+x install.sh
  ./install.sh
  ```

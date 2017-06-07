@@ -2,12 +2,12 @@
 #sandman-lite
 #An application that will remind you when to go to bed based on your
 #wake up time and the optimal sleep times algorithm.
-#Version 1.5.1
+#Version 1.6.0
 
 # This basically allows me to call date instead of having to call the OS
 # specific version and checking OS every time this is called
 
-currentVersion=1.5.1
+currentVersion=1.6.0
 
 grep() {
   case "$OSTYPE" in
@@ -50,7 +50,7 @@ function help()
   echo
   echo "Repository: https://github.com/alexanderepstein/Sandman-Lite"
   echo
-  echo "Version: 1.5.1"
+  echo "Version: 1.6.0"
 }
 
 
@@ -142,8 +142,8 @@ function removeNotificationJobs()
   do
   atrm ${jobID[$tempLength]} 2> /dev/null
   ((tempLength=$tempLength - 1))
-
   done
+  rm ~/Sandman-Lite/jobIDS.txt
   echo "Old Notifications removed"
 else
   echo "No notifications have ever been setup"
@@ -156,7 +156,7 @@ fi
 
 function setUpNotificationJobs()
 {
-  
+
   for i in {0..5} # for each sleep time
   do
     if [[ $(date -d now +"%s") -le ${secondTimes[$i]} ]]; then # if the notification should have occured by now dont set it
@@ -253,7 +253,13 @@ while getopts ":uvrghts::" opt; do
       help
     ;;
     g)
+    test -f ~/Sandman-Lite/jobIDS.txt
+    validFile=$( echo $? )
+    if [[ $validFile -eq '0' ]]; then
       getSleepTimes
+    else
+      echo "No notifications are set to occur"
+    fi
     ;;
     r)
       removeNotificationJobs
