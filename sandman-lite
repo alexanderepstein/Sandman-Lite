@@ -145,8 +145,6 @@ function removeNotificationJobs()
   done
   rm ~/Sandman-Lite/jobIDS.txt
   echo "Old Notifications removed"
-else
-  echo "No notifications have ever been setup"
 fi
 }
 
