@@ -4,7 +4,7 @@
 
  ####  a lightweight script built with late night developers in mind
 
-![Version](https://img.shields.io/github/release/alexanderepstein/Sandman-Lite/all.svg)   [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b968a73e9fef4a96b214f1cab8a1536b)](https://www.codacy.com/app/alexanderepstein/Sandman-Lite?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=alexanderepstein/Sandman-Lite&amp;utm_campaign=Badge_Grade)  ![language](https://img.shields.io/badge/language-bash-lightgrey.svg)  ![platform](https://img.shields.io/badge/platform-OSX%20%26%20Debian%20Linux-blue.svg)  [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=plastic)]()
+![Version](https://img.shields.io/github/release/alexanderepstein/Sandman-Lite/all.svg)   [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b968a73e9fef4a96b214f1cab8a1536b)](https://www.codacy.com/app/alexanderepstein/Sandman-Lite?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=alexanderepstein/Sandman-Lite&amp;utm_campaign=Badge_Grade)  ![language](https://img.shields.io/badge/language-bash-lightgrey.svg)  ![platform](https://img.shields.io/badge/platform-OSX%20%26%20GNU%20Linux-blue.svg)  [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=plastic)]()
 
 
  ## Crossplatform G.U.I. Version Can Be Found <a href="https://github.com/alexanderepstein/Sandman">here</a>

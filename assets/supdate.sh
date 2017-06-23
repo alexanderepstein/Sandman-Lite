@@ -8,7 +8,11 @@ grep() {
        exit 1 ;;
    esac
 }
-
+if (uname -o | grep Linux);then
+    sudo apt-get upgrade
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    brew update
+fi
 latestVersion=$(curl -s https://api.github.com/repos/alexanderepstein/Sandman-Lite/tags | grep -Po '"name":.*?[^\\]",'| head -1 | cut -c10-15)
 cd  ~ || { echo 'Update Failed' ; exit 1 ; }
 sudo rm -r Sandman-Lite  2> /dev/null
