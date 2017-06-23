@@ -14,17 +14,17 @@ grep() {
     darwin*) command ggrep "$@" ;; # gdate is for OSX was installed with coreutils from homebrew
     linux*)  command grep  "$@" ;; # date is built in
     *) printf 'Unsupported OS type: %s\n' "$OSTYPE" >&2 # The OS is unsupported let the user know
-       exit 1 ;;
-   esac
+    exit 1 ;;
+  esac
 }
 
 date () {
-    case "$OSTYPE" in
-      darwin*) command gdate "$@" ;; # gdate is for OSX was installed with coreutils from homebrew
-      linux*)  command date  "$@" ;; # date is built in
-      *) printf 'Unsupported OS type: %s\n' "$OSTYPE" >&2 # The OS is unsupported let the user know
-         exit 1 ;;
-     esac
+  case "$OSTYPE" in
+    darwin*) command gdate "$@" ;; # gdate is for OSX was installed with coreutils from homebrew
+    linux*)  command date  "$@" ;; # date is built in
+    *) printf 'Unsupported OS type: %s\n' "$OSTYPE" >&2 # The OS is unsupported let the user know
+    exit 1 ;;
+  esac
 }
 
 
@@ -38,7 +38,7 @@ function help()
   echo "Description:
     Based on the time you need to wake up  Sandman  will notify you throughout the
     evening at specific times when you could go to sleep and maximize your number
-    of full sleep cycles."
+  of full sleep cycles."
   echo
   echo "Usage: "
   echo "    [-s wakeUpTime] wakeuptime 24 hour time ex. 8:05 (sets new wakeuptime)"
@@ -61,10 +61,10 @@ function help()
 function showRestNotification()
 {
   if [[ "$OSTYPE" == "linux-gnu" ]]; then
-      notify-send "Sandman" "Time to take a rest"  -u critical -t 7000 -i /usr/local/sbin/sleep.png # send a notification the critical makes sure the notification shows up even if user is fullscreened into something
+    notify-send "Sandman" "Time to take a rest"  -u critical -t 7000 -i /usr/local/sbin/sleep.png # send a notification the critical makes sure the notification shows up even if user is fullscreened into something
 
   elif [[ "$OSTYPE" == "darwin"* ]]; then
-      terminal-notifier -title "Sandman" -message "Time to take a rest"  -sound "default"  -group rest -timeout 7  -appIcon /usr/local/sbin/sleep.png # send a notification for OSX
+    terminal-notifier -title "Sandman" -message "Time to take a rest"  -sound "default"  -group rest -timeout 7  -appIcon /usr/local/sbin/sleep.png # send a notification for OSX
   fi
 }
 
@@ -89,42 +89,42 @@ function generateSleepTimes()
   currentMinutes=$(date +'%M') # grab the current times minutes
 
 
-# this code block is checking whether the time the user input is actually for today or tommorrow
-# by originally assuming it is meant for today and checking if the wakeUpTime already occured if it did
-# then it is assumed the user meant for the time to be tomorrow otherwise it is taken as today
+  # this code block is checking whether the time the user input is actually for today or tommorrow
+  # by originally assuming it is meant for today and checking if the wakeUpTime already occured if it did
+  # then it is assumed the user meant for the time to be tomorrow otherwise it is taken as today
   if [[ $wakeUpHours < $currentHours ]]; then
-        IFS=$oldIFS
-        wakeUpTime="$wakeUpTime tomorrow"
+    IFS=$oldIFS
+    wakeUpTime="$wakeUpTime tomorrow"
 
   elif [[ "$wakeUpHours" == "$currentHours" && $wakeUpMinutes < $currentMinutes ]]; then
-        IFS=$oldIFS
-        wakeUpTime="$wakeUpTime tomorrow"
+    IFS=$oldIFS
+    wakeUpTime="$wakeUpTime tomorrow"
 
   else
-        IFS=$oldIFS
+    IFS=$oldIFS
 
-        wakeUpTime="$wakeUpTime today"
+    wakeUpTime="$wakeUpTime today"
 
   fi
 
 
-      tempTime=$(date -d "$wakeUpTime - 15 minutes" +"%D %H:%M") # account for the time it takes to fall asleep
-      sleepTimes[6]=$(date -d "$tempTime" +"%D %H:%M") # throw it in the top of the array so the value can be used in the following for loop as a starting point
-      sleepTimes[7]=$(date -d "$wakeUpTime + 1 hour 15 minutes" +"%Y%m%d%H%M")
-      wakeUpTime=$(date -d "$wakeUpTime"  +"%H:%M")
+  tempTime=$(date -d "$wakeUpTime - 15 minutes" +"%D %H:%M") # account for the time it takes to fall asleep
+  sleepTimes[6]=$(date -d "$tempTime" +"%D %H:%M") # throw it in the top of the array so the value can be used in the following for loop as a starting point
+  sleepTimes[7]=$(date -d "$wakeUpTime + 1 hour 15 minutes" +"%Y%m%d%H%M")
+  wakeUpTime=$(date -d "$wakeUpTime"  +"%H:%M")
 
 
 
   for i in {5..0}
   do
-      sleepTimes[$i]=$(date -d "${sleepTimes[$i+1]} - 1 hour 30 minutes" +"%D %H:%M") # subtract one sleep cycle from the previous time to get the new sleep/shutdown time
+    sleepTimes[$i]=$(date -d "${sleepTimes[$i+1]} - 1 hour 30 minutes" +"%D %H:%M") # subtract one sleep cycle from the previous time to get the new sleep/shutdown time
   done
 
 
   for i in {5..0}
   do
-      secondTimes[$i]=$(date -d "${sleepTimes[$i]}" +"%s") # get the amount of time in EPOCH for later testing
-      sleepTimes[$i]=$(date -d "${sleepTimes[$i]}" +"%Y%m%d%H%M") # format the time to be used with the at command
+    secondTimes[$i]=$(date -d "${sleepTimes[$i]}" +"%s") # get the amount of time in EPOCH for later testing
+    sleepTimes[$i]=$(date -d "${sleepTimes[$i]}" +"%Y%m%d%H%M") # format the time to be used with the at command
   done
 }
 
@@ -133,19 +133,19 @@ function removeNotificationJobs()
   test -f ~/Sandman-Lite/jobIDS.txt
   validFile=$( echo $? )
   if [[ $validFile -eq '0' ]]; then
-  oldIFS=$IFS
-  IFS=' ' read -d '' -r -a jobID < ~/Sandman-Lite/jobIDS.txt 2> /dev/null
-  IFS=$oldIFS
-  tempLength=$(echo ${#jobID[@]})
-  ((tempLength=tempLength-1))
-  while [[ $tempLength -ge "0" ]]
-  do
-  atrm ${jobID[$tempLength]} 2> /dev/null
-  ((tempLength=$tempLength - 1))
-  done
-  rm ~/Sandman-Lite/jobIDS.txt
-  echo "Old Notifications removed"
-fi
+    oldIFS=$IFS
+    IFS=' ' read -d '' -r -a jobID < ~/Sandman-Lite/jobIDS.txt 2> /dev/null
+    IFS=$oldIFS
+    tempLength=$(echo ${#jobID[@]})
+    ((tempLength=tempLength-1))
+    while [[ $tempLength -ge "0" ]]
+    do
+      atrm ${jobID[$tempLength]} 2> /dev/null
+      ((tempLength=$tempLength - 1))
+    done
+    rm ~/Sandman-Lite/jobIDS.txt
+    echo "Old Notifications removed"
+  fi
 }
 
 
@@ -191,16 +191,16 @@ function checkForUpdate()
     echo "Version $latestVersion available"
     echo -n "Do you wish to update sandman-lite [Y/n]: "
     read answer
-  if [[ "$answer" == "Y" || "$answer" == "y" ]] ;then
-    removeNotificationJobs
-    /usr/local/sbin/./supdate.sh
-  else
+    if [[ "$answer" == "Y" || "$answer" == "y" ]] ;then
+      removeNotificationJobs
+      /usr/local/sbin/./supdate.sh
+    else
       exit 1
-  fi
+    fi
 
-else
-  echo "sandman-lite is already the latest version"
-fi
+  else
+    echo "sandman-lite is already the latest version"
+  fi
 }
 
 
@@ -214,8 +214,8 @@ function getSleepTimes()
   ((maxlength = maxlength -1))
   while [[ $tempLength -ne $maxlength ]]
   do
-  atq | grep -P -e "${jobID[$tempLength]}" 2> /dev/null | cut -f2 | cut -d " " -f1-5  # shows all jobs and sorts them by job ID and parses it to be more readable
-  ((tempLength=$tempLength + 1))
+    atq | grep -P -e "${jobID[$tempLength]}" 2> /dev/null | cut -f2 | cut -d " " -f1-5  # shows all jobs and sorts them by job ID and parses it to be more readable
+    ((tempLength=$tempLength + 1))
   done
 }
 
@@ -227,7 +227,7 @@ while getopts ":uvrghts::" opt; do
         exit 1
       fi
       date +"%H:%M" -d "$OPTARG" > /dev/null  2>&1
-        isValid=$?
+      isValid=$?
       if [[ $isValid -eq 1 ]]; then
         echo "Invalid time format ex 8:30" >&2
         exit 1
@@ -238,11 +238,11 @@ while getopts ":uvrghts::" opt; do
       removeNotificationJobs
       generateSleepTimes
       setUpNotificationJobs
-      ;;
+    ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
       exit 1
-      ;;
+    ;;
     t)
       echo "Testing rest notification"
       showRestNotification
@@ -251,13 +251,13 @@ while getopts ":uvrghts::" opt; do
       help
     ;;
     g)
-    test -f ~/Sandman-Lite/jobIDS.txt
-    validFile=$( echo $? )
-    if [[ $validFile -eq '0' ]]; then
-      getSleepTimes
-    else
-      echo "No notifications are set to occur"
-    fi
+      test -f ~/Sandman-Lite/jobIDS.txt
+      validFile=$( echo $? )
+      if [[ $validFile -eq '0' ]]; then
+        getSleepTimes
+      else
+        echo "No notifications are set to occur"
+      fi
     ;;
     r)
       removeNotificationJobs
@@ -271,6 +271,6 @@ while getopts ":uvrghts::" opt; do
     :)
       echo "Option -$OPTARG requires an argument." >&2
       exit 1
-      ;;
+    ;;
   esac
 done
