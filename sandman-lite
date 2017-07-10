@@ -130,9 +130,7 @@ function generateSleepTimes()
 
 function removeNotificationJobs()
 {
-  test -f ~/Sandman-Lite/jobIDS.txt
-  validFile=$( echo $? )
-  if [[ $validFile -eq '0' ]]; then
+  if [[ -f ~/Sandman-Lite/jobIDS.txt ]]; then
     oldIFS=$IFS
     IFS=' ' read -d '' -r -a jobID < ~/Sandman-Lite/jobIDS.txt 2> /dev/null
     IFS=$oldIFS
@@ -223,7 +221,7 @@ while getopts ":uvrghts::" opt; do
   case $opt in
     s)
       if [[ $# -gt 2 ]]; then
-        echo "Option -s only accepts one argument" <&2
+        echo "Option -s only accepts one argument" >&2
         exit 1
       fi
       date +"%H:%M" -d "$OPTARG" > /dev/null  2>&1
